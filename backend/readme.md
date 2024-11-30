@@ -112,3 +112,47 @@ Logs out the authenticated user by invalidating their session token by blacklist
 
 - **Status Code**: 200 OK
 - **Content**:
+
+## Captain Registration
+
+### Endpoint
+
+`POST /captain/register`
+
+### Description
+
+Registers a new captain.
+
+### Request Body
+
+- `fullname` (object):
+  - `firstname`: string, **required**, minimum 3 characters
+  - `lastname`: string, optional, minimum 3 characters
+- `email`: string, **required**, valid email format
+- `password`: string, **required**, minimum 6 characters
+- `vehicle` (object):
+  - `color`: string, **required**, minimum 3 characters
+  - `plate`: string, **required**, minimum 3 characters
+  - `capacity`: integer, **required**, at least 1
+  - `vehicleType`: string, **required**, one of ["car", "motorcycle", "auto"]
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object):
+    - `firstname`: string, captain's first name
+    - `lastname`: string, captain's last name
+  - `email`: string, captain's email address
+  - `password`: string, captain's hashed password
+  - `vehicle` (object):
+    - `color`: string, vehicle color
+    - `plate`: string, vehicle plate number
+    - `capacity`: integer, vehicle capacity
+    - `vehicleType`: string, type of vehicle
+      // ...other captain fields...
+- `token`: string, JWT token
+
+#### Success
+
+- **Status Code**: 201 Created
+- **Content**:
