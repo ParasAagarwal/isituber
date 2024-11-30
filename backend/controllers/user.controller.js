@@ -54,7 +54,7 @@ module.exports.loginUser = async (req, res, next) => {
 };
 
 module.exports.getUserProfile = async (req, res, next) => {
-  res.status(200).json(req.captain);
+  res.status(200).json({user:req.user});
 };
 
 //using blacklisting schema to logout user
