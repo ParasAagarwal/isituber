@@ -30,7 +30,6 @@ Registers a new user.
 #### Success
 
 - **Status Code**: 201 Created
-- **Content**:
 
 ## User Login
 
@@ -60,7 +59,6 @@ Authenticates a user and returns a token and user details.
 #### Success
 
 - **Status Code**: 200 OK
-- **Content**:
 
 ## User Profile
 
@@ -88,7 +86,6 @@ Retrieves the profile information of the authenticated user.
 #### Success
 
 - **Status Code**: 200 OK
-- **Content**:
 
 ## User Logout
 
@@ -98,7 +95,7 @@ Retrieves the profile information of the authenticated user.
 
 ### Description
 
-Logs out the authenticated user by invalidating their session token by blacklisting the token provided i cookie or headers.
+Logs out the authenticated user by invalidating their session token by blacklisting the token provided in cookie or headers.
 
 ### Headers
 
@@ -111,13 +108,12 @@ Logs out the authenticated user by invalidating their session token by blacklist
 #### Success
 
 - **Status Code**: 200 OK
-- **Content**:
 
 ## Captain Registration
 
 ### Endpoint
 
-`POST /captain/register`
+`POST /captains/register`
 
 ### Description
 
@@ -134,7 +130,7 @@ Registers a new captain.
   - `color`: string, **required**, minimum 3 characters
   - `plate`: string, **required**, minimum 3 characters
   - `capacity`: integer, **required**, at least 1
-  - `vehicleType`: string, **required**, one of ["car", "motorcycle", "auto"]
+  - `vehicleType`: string, **required**, one of 'car', 'motorcycle', 'auto'
 
 ### Example Response
 
@@ -155,4 +151,96 @@ Registers a new captain.
 #### Success
 
 - **Status Code**: 201 Created
-- **Content**:
+
+## Captain Login
+
+### Endpoint
+
+`POST /captains/login`
+
+### Description
+
+Authenticates a captain and returns a token and captain details.
+
+### Request Body
+
+- `email`: string, **required**, valid email format
+- `password`: string, **required**, minimum 6 characters
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object):
+    - `firstname`: string, captain's first name
+    - `lastname`: string, captain's last name
+  - `email`: string, captain's email address
+  - `password`: string, captain's hashed password
+  - `_id`: captain's id
+  - `_status`: captain's status
+  - `vehicle` (object):
+    - `color`: string, vehicle color
+    - `plate`: string, vehicle plate number
+    - `capacity`: integer, vehicle capacity
+    - `vehicleType`: string, type of vehicle
+      // ...other captain fields...
+- `token`: string, JWT token
+
+#### Success
+
+- **Status Code**: 200 OK
+
+## Captain Profile
+
+### Endpoint
+
+`POST /captains/profile`
+
+### Description
+
+Retrieves the profile information of the authenticated captain.
+
+### Request Body
+
+- `email`: string, **required**, valid email format
+- `password`: string, **required**, minimum 6 characters
+
+### Example Response
+
+- `captain` (object):
+  - `fullname` (object):
+    - `firstname`: string, captain's first name
+    - `lastname`: string, captain's last name
+  - `email`: string, captain's email address
+  - `_id`: captain's id
+  - `_status`: captain's status
+  - `vehicle` (object):
+    - `color`: string, vehicle color
+    - `plate`: string, vehicle plate number
+    - `capacity`: integer, vehicle capacity
+    - `vehicleType`: string, type of vehicle
+
+#### Success
+
+- **Status Code**: 200 OK
+
+## Captain Logout
+
+### Endpoint
+
+`GET /captains/logout`
+
+### Description
+
+Logs out the authenticated captain by invalidating their session token by blacklisting the token provided in cookie or headers.
+
+### Headers
+
+- `Authorization`: Bearer token obtained from login or cookie
+
+### Example Response
+
+- `message`: string, confirmation of successful logout
+
+#### Success
+
+- **Status Code**: 200 OK
