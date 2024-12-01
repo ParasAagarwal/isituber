@@ -132,7 +132,11 @@ const Home = () => {
       <div>
         <div className="h-screen w-screen">
           {/* image for temporary use  */}
-          <img className="h-full w-full object-cover" src="" alt="" />
+          <img
+            className="h-full w-full object-cover"
+            src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
+            alt=""
+          />
         </div>
         <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
           <div className="h-[30%] p-6 bg-white relative">
@@ -210,9 +214,7 @@ const Home = () => {
           ref={waitingForDriverRef}
           className="fixed w-full  z-10 bottom-0  bg-white px-3 py-6 pt-12"
         >
-          <WaitingForDriver
-            setWaitingForDriver={setWaitingForDriver}
-          />
+          <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
         </div>
       </div>
     </div>
