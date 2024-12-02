@@ -1,19 +1,21 @@
-import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom';
-import CaptainDetails from '../components/CaptainDetails';
-import RidePopUp from '../components/RidePopUp';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
+import React, { useRef, useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import CaptainDetails from "../components/CaptainDetails";
+import RidePopUp from "../components/RidePopUp";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
+import { CaptainDataContext } from "../context/CaptainContext";
 
 const CaptainHome = () => {
-
-  const [ridePopupPanel, setRidePopupPanel] = useState(true);
+  const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
 
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
   const [ride, setRide] = useState(null);
+
+  const { captain } = useContext(CaptainDataContext);
 
   useGSAP(
     function () {
@@ -91,6 +93,6 @@ const CaptainHome = () => {
       </div>
     </div>
   );
-}
+};
 
-export default CaptainHome
+export default CaptainHome;

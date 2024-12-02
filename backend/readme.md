@@ -368,3 +368,33 @@ Creates a new ride request for the authenticated user.
 #### Success
 
 - **Status Code**: 201 Created
+
+## Get Fare
+
+### Endpoint
+
+`GET /rides/get-fare`
+
+### Description
+
+Retrieves the estimated fare for a ride based on the pickup and destination addresses.
+
+### Query Parameters
+
+- `pickup`: string, **required**, the pickup address (minimum 3 characters)
+- `destination`: string, **required**, the destination address (minimum 3 characters)
+
+### Headers
+
+- `Authorization`: Bearer token obtained from login
+
+### Example Response
+
+- `fare` (object):
+  - `auto`: number, estimated fare for an auto
+  - `car`: number, estimated fare for a car
+  - `moto`: number, estimated fare for a motorcycle
+
+#### Success
+
+- **Status Code**: 200 OK
