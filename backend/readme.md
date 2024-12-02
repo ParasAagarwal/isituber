@@ -398,3 +398,37 @@ Retrieves the estimated fare for a ride based on the pickup and destination addr
 #### Success
 
 - **Status Code**: 200 OK
+
+## Confirm Ride
+
+### Endpoint
+
+`POST /rides/confirm`
+
+### Description
+
+Allows a captain to confirm a ride request.
+
+### Request Body
+
+- `rideId`: string, **required**, the unique identifier of the ride to confirm
+
+### Headers
+
+- `Authorization`: Bearer token obtained from captain login
+
+### Example Response
+
+- `ride` (object):
+  - `_id`: string, unique identifier of the ride
+  - `user`: object, user details
+  - `captain`: object, captain details
+  - `pickup`: string, pickup address
+  - `destination`: string, destination address
+  - `fare`: number, fare for the ride
+  - `status`: string, status of the ride (e.g., 'accepted')
+  // ...other ride fields...
+
+#### Success
+
+- **Status Code**: 200 OK

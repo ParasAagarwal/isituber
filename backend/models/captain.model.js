@@ -53,8 +53,8 @@ const captainSchema = new mongoose.Schema({
     },
   },
   location: {
-    lat: { type: Number },
-    lon: { type: Number },
+    ltd: { type: Number },
+    lng: { type: Number },
   },
 });
 

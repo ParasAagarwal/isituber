@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
@@ -9,6 +9,9 @@ import ConfirmRide from "../components/ConfirmRide.jsx";
 import LookingForDriver from "../components/LookingForDriver.jsx";
 import WaitingForDriver from "../components/WaitingForDriver.jsx";
 import axios from "axios";
+import { SocketContext } from "../context/SocketContext.jsx";
+import { UserDataContext } from "../context/userContext.jsx";
+import LiveTracking from "../components/LiveTracking.jsx";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -32,6 +35,24 @@ const Home = () => {
   const [ride, setRide] = useState(null);
 
   const navigate = useNavigate();
+
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserDataContext);
+
+  useEffect(() => {
+    socket.emit("join", { userType: "user", userId: user._id });
+  }, [user]);
+
+  socket.on("ride-confirmed", (ride) => {
+    setVehicleFound(false);
+    setWaitingForDriver(true);
+    setRide(ride);
+  });
+
+  socket.on("ride-started", (ride) => {
+    setWaitingForDriver(false);
+    navigate("/riding", { state: { ride } });
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -171,7 +192,6 @@ const Home = () => {
         },
       }
     );
-    console.log(response.data);
 
     setFare(response.data);
   }
@@ -190,7 +210,6 @@ const Home = () => {
         },
       }
     );
-    console.log(response.data);
   }
 
   return (
@@ -203,11 +222,12 @@ const Home = () => {
       <div>
         <div className="h-screen w-screen">
           {/* image for temporary use  */}
-          <img
+          {/* <img
             className="h-full w-full object-cover"
             src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
             alt=""
-          />
+          /> */}
+          <LiveTracking/>
         </div>
         <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
           <div className="h-[30%] p-6 bg-white relative">
@@ -316,6 +336,7 @@ const Home = () => {
           className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12"
         >
           <WaitingForDriver
+            ride={ride}
             setVehicleFound={setVehicleFound}
             setWaitingForDriver={setWaitingForDriver}
             waitingForDriver={waitingForDriver}
