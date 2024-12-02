@@ -333,3 +333,38 @@ An array of address suggestions.
 #### Success
 
 - **Status Code**: 200 OK
+
+## Create Ride
+
+### Endpoint
+
+`POST /rides/create`
+
+### Description
+
+Creates a new ride request for the authenticated user.
+
+### Request Body
+
+- `pickup`: string, **required**, pickup address (minimum 3 characters)
+- `destination`: string, **required**, destination address (minimum 3 characters)
+- `vehicleType`: string, **required**, one of 'auto', 'car', 'moto'
+
+### Headers
+
+- `Authorization`: Bearer token obtained from user login
+
+### Example Response
+
+- `ride` (object):
+  - `_id`: string, unique identifier of the ride
+  - `user`: string, user ID
+  - `pickup`: string, pickup address
+  - `destination`: string, destination address
+  - `fare`: number, calculated fare for the ride
+  - `status`: string, current status of the ride (e.g., 'pending', 'accepted', 'ongoing', 'completed')
+  // ...other ride fields...
+
+#### Success
+
+- **Status Code**: 201 Created
