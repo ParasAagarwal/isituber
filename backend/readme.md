@@ -244,3 +244,92 @@ Logs out the authenticated captain by invalidating their session token by blackl
 #### Success
 
 - **Status Code**: 200 OK
+
+## Get Coordinates
+
+### Endpoint
+
+`GET /maps/get-coordinates`
+
+### Description
+
+Retrieves the latitude and longitude for a given address.
+
+### Query Parameters
+
+- `address`: string, **required**, the address to geocode (minimum 3 characters)
+
+### Headers
+
+- `Authorization`: Bearer token obtained from login
+
+### Example Response
+
+- `coordinates` (object):
+  - `ltd`: number, latitude of the address
+  - `lng`: number, longitude of the address
+
+#### Success
+
+- **Status Code**: 200 OK
+
+## Get Distance and Time
+
+### Endpoint
+
+`GET /maps/get-distance-time`
+
+### Description
+
+Retrieves the distance and estimated travel time between an origin and a destination.
+
+### Query Parameters
+
+- `origin`: string, **required**, the starting address (minimum 3 characters)
+- `destination`: string, **required**, the destination address (minimum 3 characters)
+
+### Headers
+
+- `Authorization`: Bearer token obtained from login
+
+### Example Response
+
+- `distance` (object):
+  - `text`: string, distance in human-readable format (e.g., "5.3 km")
+  - `value`: number, distance in meters
+- `duration` (object):
+  - `text`: string, duration in human-readable format (e.g., "12 mins")
+  - `value`: number, duration in seconds
+- `status`: string, status of the request
+
+#### Success
+
+- **Status Code**: 200 OK
+
+## Get AutoComplete Suggestions
+
+### Endpoint
+
+`GET /maps/get-suggestions`
+
+### Description
+
+Retrieves address suggestions based on a partial input.
+
+### Query Parameters
+
+- `input`: string, **required**, the partial address input (minimum 3 characters)
+
+### Headers
+
+- `Authorization`: Bearer token obtained from login
+
+### Example Response
+
+An array of address suggestions.
+
+- `suggestions`: array of strings, possible address completions
+
+#### Success
+
+- **Status Code**: 200 OK
