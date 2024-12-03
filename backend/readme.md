@@ -432,3 +432,72 @@ Allows a captain to confirm a ride request.
 #### Success
 
 - **Status Code**: 200 OK
+
+## Start Ride
+
+### Endpoint
+
+`GET /rides/start-ride`
+
+### Description
+
+Allows a captain to start a ride that has been accepted by verifying the ride OTP.
+
+### Query Parameters
+
+- `rideId`: string, **required**, the unique identifier of the ride (must be a valid MongoDB ObjectId)
+- `otp`: string, **required**, 6-digit OTP provided to the captain
+
+### Headers
+
+- `Authorization`: Bearer token obtained from captain login
+
+### Example Response
+
+- `ride` (object):
+  - `_id`: string, unique identifier of the ride
+  - `user`: object, user details
+  - `captain`: object, captain details
+  - `pickup`: string, pickup address
+  - `destination`: string, destination address
+  - `fare`: number, fare for the ride
+  - `status`: string, updated status of the ride (e.g., 'ongoing')
+  // ...other ride fields...
+
+#### Success
+
+- **Status Code**: 200 OK
+
+## End Ride
+
+### Endpoint
+
+`POST /rides/end-ride`
+
+### Description
+
+Allows a captain to complete a ride that is currently ongoing.
+
+### Request Body
+
+- `rideId`: string, **required**, the unique identifier of the ride (must be a valid MongoDB ObjectId)
+
+### Headers
+
+- `Authorization`: Bearer token obtained from captain login
+
+### Example Response
+
+- `ride` (object):
+  - `_id`: string, unique identifier of the ride
+  - `user`: object, user details
+  - `captain`: object, captain details
+  - `pickup`: string, pickup address
+  - `destination`: string, destination address
+  - `fare`: number, fare for the ride
+  - `status`: string, updated status of the ride (e.g., 'completed')
+  // ...other ride fields...
+
+#### Success
+
+- **Status Code**: 200 OK
