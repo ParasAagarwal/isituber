@@ -8,7 +8,10 @@ Isituber is a comprehensive ride-sharing application designed to connect users w
 
 ## Demo Video
 
-https://github.com/user-attachments/assets/ec7e8c44-650e-4bbb-8837-df920b4e878a
+<video width="640" height="360" autoplay loop muted>
+  <source src="https://github.com/user-attachments/assets/ec7e8c44-650e-4bbb-8837-df920b4e878a" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Thought Process
 
