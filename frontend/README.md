@@ -1,5 +1,7 @@
 # Frontend Documentation
 
+### ACCESS THE PROJECT IN RESPONSIVE MOBILE VIEW FOR BEST EXPERIENCE
+
 ## Description
 
 The frontend of this project is built using React and Vite. It provides a user interface for both users and captains to interact with the ride-sharing application. The application includes features such as user and captain authentication, ride creation, fare estimation, and real-time ride tracking using sockets.
