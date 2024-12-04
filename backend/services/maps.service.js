@@ -1,5 +1,6 @@
 const axios = require("axios");
 const captainModel = require("../models/captain.model");
+const client = require("../redis");
 
 module.exports.getAddressCoordinate = async (address) => {
   const apiKey = process.env.GOOGLE_MAPS_API;
@@ -7,14 +8,26 @@ module.exports.getAddressCoordinate = async (address) => {
     address
   )}&key=${apiKey}`;
 
+  // Check Redis cache
+  const cacheKey = `address:${address}`;
+  const cachedCoordinates = await client.get(cacheKey);
+  if (cachedCoordinates) {
+    return JSON.parse(cachedCoordinates);
+  }
+
   try {
     const response = await axios.get(url);
     if (response.data.status === "OK") {
       const location = response.data.results[0].geometry.location;
-      return {
+      const coordinates = {
         ltd: location.lat,
         lng: location.lng,
       };
+
+      // Store coordinates in Redis cache
+      await client.set(cacheKey, JSON.stringify(coordinates), "EX", 3600);
+
+      return coordinates;
     } else {
       throw new Error("Unable to fetch coordinates");
     }
@@ -35,12 +48,29 @@ module.exports.getDistanceTime = async (origin, destination) => {
     origin
   )}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
+  // Generate cache key
+  const cacheKey = `distance:${origin}:${destination}`;
+
+  // Check Redis cache
+  const cachedData = await client.get(cacheKey);
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
   try {
     const response = await axios.get(url);
     if (response.data.status === "OK") {
       if (response.data.rows[0].elements[0].status === "ZERO_RESULTS") {
         throw new Error("No routes found");
       }
+
+      // Store result in Redis cache
+      await client.set(
+        cacheKey,
+        JSON.stringify(response.data.rows[0].elements[0]),
+        "EX",
+        3600
+      );
 
       return response.data.rows[0].elements[0];
     } else {
@@ -78,12 +108,11 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
 };
 
 module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
-
   //created by mongo
   const captains = await captainModel.find({
     location: {
       $geoWithin: {
-        $centerSphere: [[ltd, lng], radius / 6371],//in km
+        $centerSphere: [[ltd, lng], radius / 6371], //in km
       },
     },
   });

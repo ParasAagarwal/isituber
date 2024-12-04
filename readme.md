@@ -4,7 +4,7 @@
 
 ## Description
 
-Isituber is a comprehensive ride-sharing application designed to connect users with captains (drivers) for seamless and efficient transportation. The project leverages modern web technologies and integrates with Google APIs to provide features such as real-time ride tracking, fare estimation, and location suggestions. The application is built with a robust backend and a dynamic frontend, ensuring a smooth user experience.
+Isituber is a comprehensive ride-sharing application designed to connect users with captains (drivers) for seamless and efficient transportation. The project leverages modern web technologies and integrates with Google APIs to provide features such as real-time ride tracking, fare estimation, and location suggestions. The application is built with a robust backend and a dynamic frontend, ensuring a smooth user experience. Additionally, Redis is used for caching frequently accessed dat and session management to enhance performance and scalability.
 
 ## Demo Video
 
@@ -12,7 +12,7 @@ https://github.com/user-attachments/assets/ec7e8c44-650e-4bbb-8837-df920b4e878a
 
 ## Thought Process
 
-The primary goal of Isituber is to create a user-friendly platform that simplifies the process of booking rides. The application is designed to handle user authentication, ride creation, fare calculation, and real-time updates using sockets. The integration with Google APIs enhances the application's functionality by providing accurate location data and distance calculations.
+The primary goal of Isituber is to create a user-friendly platform that simplifies the process of booking rides. The application is designed to handle user authentication, ride creation, fare calculation, and real-time updates using sockets. The integration with Google APIs enhances the application's functionality by providing accurate location data and distance calculations. To further improve performance and scalability, Redis is used for caching frequently accessed data.
 
 ## Main Components
 
@@ -24,6 +24,7 @@ The primary goal of Isituber is to create a user-friendly platform that simplifi
 - **Middlewares**: Handle authentication and authorization.
 - **Services**: Provide utility functions for maps, rides, and captains.
 - **Socket**: Manages real-time communication between users and captains.
+- **Redis**: Used for caching frequently accessed data and session management.
 
 ### Frontend
 
@@ -44,6 +45,7 @@ The primary goal of Isituber is to create a user-friendly platform that simplifi
 - **Socket.io**: Library for real-time communication, used to connect users and captains.
 - **dotenv**: Module to load environment variables from a `.env` file.
 - **Google Maps APIs**: Used for geocoding, distance calculation, and location suggestions.
+- **Redis**: In-memory data structure store, used for caching, session management.
 
 ### Backend Packages
 
@@ -52,6 +54,7 @@ The primary goal of Isituber is to create a user-friendly platform that simplifi
 - **cors**: Middleware for enabling Cross-Origin Resource Sharing.
 - **morgan**: HTTP request logger middleware for Node.js.
 - **nodemon**: Utility that monitors for changes in the source code and automatically restarts the server.
+- **redis**: A fast, in-memory data store used for caching.
 
 ### Frontend
 
@@ -132,6 +135,7 @@ Isituber connects users and captains through real-time communication using socke
 - **Real-Time Updates**: The application uses sockets to provide real-time updates for ride requests, confirmations, and ride tracking.
 - **Authentication**: Secure user and captain authentication using JWT tokens.
 - **Error Handling**: Comprehensive error handling for API requests and real-time communication.
+- **Caching with Redis**: Utilized Redis for caching frequently accessed data and session management to improve performance and scalability.
 
 ## Frontend Documentation
 

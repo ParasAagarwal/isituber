@@ -1,10 +1,17 @@
 const rideModel = require("../models/ride.model");
 const mapService = require("./maps.service");
 const crypto = require("crypto");
+const client = require("../redis");
 
 async function getFare(pickup, destination) {
   if (!pickup || !destination) {
     throw new Error("Pickup and destination are required");
+  }
+
+  const cacheKey = `fare:${pickup}:${destination}`;
+  const cachedFare = await client.get(cacheKey);
+  if (cachedFare) {
+    return JSON.parse(cachedFare);
   }
 
   const distanceTime = await mapService.getDistanceTime(pickup, destination);
@@ -45,6 +52,7 @@ async function getFare(pickup, destination) {
     ),
   };
 
+  await client.set(cacheKey, JSON.stringify(fare), "EX", 3600);
   return fare;
 }
 

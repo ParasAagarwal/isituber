@@ -1,8 +1,8 @@
 const userModel = require("../models/user.model");
 const BlacklistToken = require("../models/blacklistToken.model");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const captainModel = require("../models/captain.model");
+const client = require("../redis");
 
 module.exports.authUser = async (req, res, next) => {
   try {
@@ -14,10 +14,21 @@ module.exports.authUser = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    //checking if token is blacklisted means user is logged out
+    client.get(`blacklist:${token}`, async (err, isBlacklisted) => {
+      if (err) {
+        console.error("Redis GET error:", err);
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
+
+      if (isBlacklisted) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+    });
+
     const isBlacklisted = await BlacklistToken.findOne({ token });
 
     if (isBlacklisted) {
+      client.set(`blacklist:${token}`, "true", "EX", 3600 * 24);
       return res.status(401).json({ message: "Unauthorized" });
     }
 
@@ -40,9 +51,21 @@ module.exports.authCaptain = async (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
+  client.get(`blacklist:${token}`, async (err, isBlacklisted) => {
+    if (err) {
+      console.error("Redis GET error:", err);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    if (isBlacklisted) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+  });
+
   const isBlacklisted = await BlacklistToken.findOne({ token });
 
   if (isBlacklisted) {
+    client.set(`blacklist:${token}`, "true", "EX", 3600 * 24);
     return res.status(401).json({ message: "Unauthorized" });
   }
   try {
@@ -54,4 +77,4 @@ module.exports.authCaptain = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-}
+};

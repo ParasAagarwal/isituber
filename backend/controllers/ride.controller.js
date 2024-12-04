@@ -70,7 +70,6 @@ module.exports.getFare = async (req, res, next) => {
 };
 
 module.exports.confirmRide = async (req, res, next) => {
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -97,7 +96,6 @@ module.exports.confirmRide = async (req, res, next) => {
 };
 
 module.exports.startRide = async (req, res, next) => {
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -123,7 +121,7 @@ module.exports.startRide = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
 
 module.exports.endRide = async (req, res) => {
   const errors = validationResult(req);

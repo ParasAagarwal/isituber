@@ -1,5 +1,7 @@
 # Backend API Documentation
 
+- **Redis** A versatile, in-memory data store is integrated with cacheable services, enhancing application performance and scalability.
+
 ## Models
 
 ### User Model

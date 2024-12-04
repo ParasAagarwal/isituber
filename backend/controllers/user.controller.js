@@ -2,6 +2,7 @@ const userModel = require("../models/user.model");
 const userService = require("../services/user.service");
 const { validationResult } = require("express-validator");
 const blackListTokenModel = require("../models/blacklistToken.model");
+const client = require("../redis");
 
 module.exports.registerUser = async (req, res, next) => {
   const errors = validationResult(req); //the validationResult function will return an array of errors if there are any that are caught by the middleware in the user routes file
@@ -54,14 +55,15 @@ module.exports.loginUser = async (req, res, next) => {
 };
 
 module.exports.getUserProfile = async (req, res, next) => {
-  res.status(200).json({user:req.user});
+  res.status(200).json({ user: req.user });
 };
 
-//using blacklisting schema to logout user
 module.exports.logoutUser = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization.split(" ")[1];
 
   await blackListTokenModel.create({ token });
+
+  client.set(`blacklist:${token}`, "true", "EX", 3600 * 24);
 
   res.clearCookie("token");
 
